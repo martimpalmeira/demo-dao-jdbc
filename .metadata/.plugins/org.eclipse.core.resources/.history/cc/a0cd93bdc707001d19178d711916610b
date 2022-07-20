@@ -1,0 +1,14 @@
+package application;
+
+import model.dao.DepartmentDao;
+import model.dao.impl.DepartmentDaoJDBC;
+
+public class Program {
+
+	public static void main(String[] args) {
+		
+		DepartmentDao dep = new DepartmentDaoJDBC();
+		System.out.println(dep.findById(1));
+	}
+
+}

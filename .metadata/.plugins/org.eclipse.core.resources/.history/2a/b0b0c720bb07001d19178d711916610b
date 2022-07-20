@@ -1,0 +1,18 @@
+package model.dao;
+
+import java.util.ArrayList;
+
+import model.entities.Department;
+
+public interface DepartmentDAO {
+
+	void insert(Department obj);
+
+	void uptade(Department obj);
+
+	void delete(Department obj);
+	
+	Department findById(Integer id);
+	
+	ArrayList<Department> findAll();
+}

@@ -1,0 +1,42 @@
+package model.dao.impl;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import model.dao.DepartmentDao;
+import model.entities.Department;
+
+public class DepartmentDaoJDBC implements DepartmentDao {
+
+	@Override
+	public void insert(Department obj) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void uptade(Department obj) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delete(Department obj) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Department findById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Department> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

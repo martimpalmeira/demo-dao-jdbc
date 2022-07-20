@@ -1,0 +1,133 @@
+package model.dao.impl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import db.DB;
+import db.DbException;
+import model.dao.DepartmentDao;
+import model.entities.Department;
+
+public class DepartmentDaoJDBC implements DepartmentDao {
+
+	private Connection con;
+
+	public DepartmentDaoJDBC(Connection con) {
+		this.con = con;
+	}
+
+	@Override
+	public void insert(Department obj) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO department (Name) VALUES (?)",
+					Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, obj.getName());
+			int rowsAffected = ps.executeUpdate();
+			if (rowsAffected > 0) {
+				rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					Integer id = rs.getInt(1);
+					obj.setId(id);
+				}
+
+			} else {
+				throw new DbException("Error: 0 rows affected");
+			}
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+			DB.closeResultSet(rs);
+		}
+
+	}
+	// FIXME
+
+	@Override
+	public void uptade(Department obj) {
+		PreparedStatement ps = null;
+
+		try {
+			ps = con.prepareStatement("UPDATE department SET Name = ? WHERE Id = ?");
+			ps.setString(1, obj.getName());
+			ps.setInt(2, obj.getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+		}
+
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		PreparedStatement ps = null;
+
+		try {
+			ps = con.prepareStatement("DELETE FROM department WHERE Id = ? ");
+			ps.setInt(1, id);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+		}
+
+	}
+
+	@Override
+	public Department findById(Integer id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = con.prepareStatement("SELECT * FROM department WHERE Id = ?");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				return new Department(rs.getInt(1), rs.getString(2));
+			}
+
+			return null;
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+			DB.closeResultSet(rs);
+		}
+	}
+
+	// ok
+
+@Override
+	public ArrayList<Department> findAll() {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Department> departments = new ArrayList<>();
+		try {
+			ps = con.prepareStatement("SELECT * FROM department");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				departments.add(new Department(rs.getInt(1), rs.getString(2)));
+			}
+			return departments;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(ps);
+			DB.closeResultSet(rs);
+		}
+	}
+
+
+	// ok
+}

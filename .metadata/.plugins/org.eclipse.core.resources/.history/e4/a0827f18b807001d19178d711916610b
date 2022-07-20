@@ -1,0 +1,12 @@
+package dao;
+
+public interface DepartmentDAO {
+	
+	void insert();
+	
+	void delete();
+	
+	void uptade();
+	
+	
+}

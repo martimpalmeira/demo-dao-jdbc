@@ -1,0 +1,25 @@
+package application;
+
+import db.DB;
+import model.dao.DaoFactory;
+import model.dao.SellerDao;import model.dao.impl.SellerDaoJDBC;
+import model.entities.Seller;
+
+public class Program {
+
+	public static void main(String[] args) {
+		
+		SellerDao sellerDao = DaoFactory.createSellerDao();
+		Seller seller = sellerDao.findById(1);
+		System.out.println("===== TEST 1: FIND SELLER BY Id ======");
+		System.out.println(seller);
+		
+		SellerDaoJDBC sellerDao2 = new SellerDaoJDBC(DB.getConnection());
+		Seller seller2 = sellerDao2.findByDepartment(1);
+		System.out.println("===== TEST 1: FIND SELLER BY DepartmentId ======");
+		System.out.println(seller);
+		
+		
+	}
+
+}

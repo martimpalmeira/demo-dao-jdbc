@@ -1,0 +1,34 @@
+package application;
+
+import java.util.ArrayList;
+
+import model.dao.DaoFactory;
+import model.dao.SellerDao;
+import model.entities.Department;
+import model.entities.Seller;
+
+public class Program {
+
+	public static void main(String[] args) {
+		
+		SellerDao sellerDao = DaoFactory.createSellerDao();
+		Seller seller = sellerDao.findById(1);
+		System.out.println("===== TEST 1: FIND SELLER BY Id ======");
+		System.out.println(seller);
+		
+		Department dep = new Department(2,"Computers");
+		ArrayList<Seller> sellers =  sellerDao.findByDepartment(dep);
+		System.out.println("===== TEST 2: FIND SELLERS BY Department ======");
+		for(Seller s : sellers) {
+			System.out.println(s);
+		}
+		
+		System.out.println("===== TEST 3: FIND ALL SELLERS =====");
+		ArrayList<Seller> sellers2 = sellerDao.findAll();
+		for(Seller s : sellers2) {
+			System.out.println(s);
+		}
+		
+	}
+
+}
